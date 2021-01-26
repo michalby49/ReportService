@@ -74,7 +74,7 @@ namespace ReportService.Model
                 htlm += "--brak danych do wyświetlenia--";
                 htlm += @"<br /><br /> <i>Automatyczna wiadomość wysłana z aplikacji Report Service.</i>";
             return htlm;
-            
+           
         }
     }
 }

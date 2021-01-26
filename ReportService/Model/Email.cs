@@ -1,6 +1,10 @@
-﻿using System;
+﻿using ReportService.Extentions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,7 +19,7 @@ namespace ReportService.Model
         private bool _enableSsl;
         private int _port;
         private string _senderEmail;
-        private string _senderEmailPassword
+        private string _senderEmailPassword;
         private string _senderName;
 
         public Email(EmailParams emailParams)
@@ -28,7 +32,7 @@ namespace ReportService.Model
             _senderName = emailParams.SenderName;
         }
 
-        public void Send(string subject, string body, string to)
+        public async Task Send(string subject, string body, string to)
         {
             _mail = new MailMessage();
             _mail.From = new MailAddress(_senderEmail, _senderName);
@@ -38,8 +42,39 @@ namespace ReportService.Model
             _mail.BodyEncoding = Encoding.UTF8;
             _mail.SubjectEncoding = Encoding.UTF8;
            
-            _mail.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(body), null, MediaTypesNames.Text.Plain);
+            _mail.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(body.StripHTML(), null, MediaTypeNames.Text.Plain));
 
+            _mail.AlternateViews.Add(AlternateView.CreateAlternateViewFromString($@"
+                <html>
+                        <head>
+                        </head>
+                        <body>
+                            <div style='font-size: 16x paddnig: 10px; fant-familu: Arial; line-height: 1.4;'>
+                                {body}
+                            </div>
+                        </body>
+                </html>
+                ", null, MediaTypeNames.Text.Html));
+
+            _smtp = new SmtpClient
+            {
+                Host = _hostSmtp,
+                EnableSsl = _enableSsl,
+                Port = _port,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(_senderName, _senderEmailPassword)
+            };
+
+            _smtp.SendCompleted += OnSendCompleted;
+
+            await _smtp.SendMailAsync(_mail);
+        }
+
+        private void OnSendCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
+        {
+            _smtp.Dispose();
+            _mail.Dispose();
         }
     }
 }

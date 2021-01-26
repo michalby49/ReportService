@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extentions\StringExtentions.cs" />
     <Compile Include="Model\Domains\Error.cs" />
     <Compile Include="Model\Domains\Report.cs" />
     <Compile Include="Model\Domains\ReportPosition.cs" />
