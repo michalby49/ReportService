@@ -1,11 +1,11 @@
-﻿using ReportService.Model.Domains;
+﻿using ReportService.Core.Domains;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReportService.Repository
+namespace ReportService.Core.Repository
 {
     public class ErrorRepository
     {

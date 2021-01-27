@@ -1,13 +1,13 @@
-﻿using ReportService.Model.Domains;
+﻿using ReportService.Core.Domains;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReportService.Model
+namespace ReportService.Core
 {
-    class GenerateHtlmEmail
+    public class GenerateHtlmEmail
     {
         public string GenerateErrors (List<Error> errors, int interval)
         {

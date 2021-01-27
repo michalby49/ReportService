@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ReportService.Model.Domains
+namespace ReportService.Core.Domains
 {
     public class Report
     {
