@@ -11,6 +11,8 @@ using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using System.Configuration;
+using Cipher;
 
 namespace ReportService
 {
@@ -25,20 +27,47 @@ namespace ReportService
         private Email _email;
         private GenerateHtlmEmail _htlmEmail;
         private string _emailReciver = "wiktoria.freus1@gmail.com";
+        private StringCipher _stringCipher = new StringCipher("6C746BEF-6186-4095-A1C3-D8C34BCDF4F3");
         public ReportService()
         {
             InitializeComponent();
-            _email = new Email(new EmailParams
-            {
-                HostSmtp = "smtp.gmail.com",
-                Port = 587,
-                EnableSsl = true,
-                SenderName = "Michał Beśka",
-                SenderEmail = "reportservicetest@gmail.com",
-                SenderEmailPassword = "btowczbeplzobilj"
-            });
-        }
+            _emailReciver = ConfigurationManager.AppSettings["ReciverEmail"];
 
+            try
+            {
+                _emailReciver = ConfigurationManager.AppSettings["ReciverEmail"];
+
+                _email = new Email(new EmailParams
+                {
+                    HostSmtp = ConfigurationManager.AppSettings["HostSmtp"],
+                    Port = Convert.ToInt32(ConfigurationManager.AppSettings["Port"]),
+                    EnableSsl = Convert.ToBoolean(ConfigurationManager.AppSettings["EnableSsl"]),
+                    SenderName = ConfigurationManager.AppSettings["SenderName"],
+                    SenderEmail = ConfigurationManager.AppSettings["SenderEmail"],
+                    SenderEmailPassword = DecryptedSenderEmailPassword()
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, ex.Message);
+                throw new Exception(ex.Message);
+            }
+        }
+        private string DecryptedSenderEmailPassword()
+        {
+            var encryptedPassword = ConfigurationManager.AppSettings["SenderEmailPassword"];
+
+            if (encryptedPassword.StartsWith("encrypt:"))
+            {
+                encryptedPassword = _stringCipher.Encrypt(encryptedPassword.Replace("encrypt:", ""));
+
+                var configFile = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                configFile.AppSettings.Settings["SenderEmailPassword"].Value = encryptedPassword;
+                configFile.Save();
+            }
+
+            return _stringCipher.Decrypt(encryptedPassword);
+        }
         protected override void OnStart(string[] args)
         {
             _timer.Elapsed += DoWork;

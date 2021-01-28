@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailSender", "ReportServic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReportService.Core", "ReportService.Core\ReportService.Core.csproj", "{8DA206DB-25BB-4B07-AB55-966BA8E6C7BF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cipher", "Cipher\Cipher.csproj", "{6DD24F67-BADA-47CD-ACD6-632482F8EDC4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{8DA206DB-25BB-4B07-AB55-966BA8E6C7BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8DA206DB-25BB-4B07-AB55-966BA8E6C7BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8DA206DB-25BB-4B07-AB55-966BA8E6C7BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DD24F67-BADA-47CD-ACD6-632482F8EDC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DD24F67-BADA-47CD-ACD6-632482F8EDC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DD24F67-BADA-47CD-ACD6-632482F8EDC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DD24F67-BADA-47CD-ACD6-632482F8EDC4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

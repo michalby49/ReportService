@@ -85,6 +85,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Cipher\Cipher.csproj">
+      <Project>{6dd24f67-bada-47cd-acd6-632482f8edc4}</Project>
+      <Name>Cipher</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ReportService.Core\ReportService.Core.csproj">
       <Project>{8da206db-25bb-4b07-ab55-966ba8e6c7bf}</Project>
       <Name>ReportService.Core</Name>
