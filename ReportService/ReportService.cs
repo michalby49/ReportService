@@ -19,14 +19,14 @@ namespace ReportService
     public partial class ReportService : ServiceBase
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
-        private const int SendHour = 8;
-        private const int IntervalInMinutes = 60;
+        private int SendHour = Convert.ToInt32(ConfigurationManager.AppSettings["SendHour"]);
+        private static int IntervalInMinutes = Convert.ToInt32(ConfigurationManager.AppSettings["IntervalInMinutes"]);
         private Timer _timer = new Timer( IntervalInMinutes * 60000);
         private ErrorRepository _errorRepository = new ErrorRepository();
         private ReportRepository _reportRepository = new ReportRepository();
         private Email _email;
         private GenerateHtlmEmail _htlmEmail;
-        private string _emailReciver = "wiktoria.freus1@gmail.com";
+        private string _emailReciver;
         private StringCipher _stringCipher = new StringCipher("6C746BEF-6186-4095-A1C3-D8C34BCDF4F3");
         public ReportService()
         {
@@ -80,7 +80,10 @@ namespace ReportService
             try
             {
                 await SendErrors();
-                await SendReport();
+
+                if(Convert.ToBoolean(ConfigurationManager.AppSettings["SendRaport"]))
+                    await SendReport();
+
             }
             catch (Exception ex)
             {
